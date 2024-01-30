@@ -146,6 +146,10 @@ Your entry has been submitted succesfully. <br><br>
                     <input type="text" class="form-control" placeholder="Company*" name="company" id="company" required />
 						<div id="company-err"></div>
                   </div>
+                  <div class="col-md-6 col-sm-12 col-xs-12">
+                    <input type="text" class="form-control" placeholder="Position*" name="position" id="position" required />
+						<div id="position-err"></div>
+                  </div>
                     <div class="col-md-6 col-sm-12 col-xs-12">
                         <div class="form-select-box">
                         <select class="form-select form-control" name="nationality" id="nationality">
