@@ -1,48 +1,49 @@
 <?php  
 ob_start();
  include("hktdcAdmin/includes/conn.php"); 
+ 
+
+
  if(isset($_REQUEST['btnadd'])){
+    
 	$status = 1;
-	$fullName=$_POST['full-name'];	
+    $salutation=$_POST['salutation'];
+	$giveName=$_POST['given-name'];	
+	$surname=$_POST['surname'];	
+    $company=$_POST['company'];
+    $position=$_POST['position'];
     $nationality=$_POST['nationality'];
-	$dob=$_POST['dob'];	
-    $emirate=$_POST['city'];
+	$state=$_POST['state'];	
+    $city=$_POST['city'];
+	$telephone=$_POST['telephone'];
 	$mobile=$_POST['mobile'];
+	$fax=$_POST['fax'];
 	$email=$_POST['email'];
-    $agree = $_POST['customRadio1'];
-	//echo $agree; die;
-	//$store=$_POST['store'];
-	//$invoiceNumber=$_POST['invoicenumber'];
-    $randomNumber = rand(101, 99999);
-    //echo $randomNumber; die;
-	$arabic=0;
-	$series=0;
+    $website = $_POST['website'];
+    if(isset($_POST['attend'])) {
+        $attend = 1;
+    } else {
+       $attend = 0; 
+    }
+    if(isset($_POST['confirmation'])) {
+        $confirmation = 1;
+    } else {
+       $confirmation = 0; 
+    }
+    if(isset($_POST['consent'])) {
+        $consent = 1;
+    } else {
+       $consent = 0; 
+    }
+    // $agree = $_POST['iagree'];
+   
+
 
     //	if($fullName!="" && $invoiceNumber!="" && $email !="" && $store !=""){
-	if($fullName!="" && $email !=""){
-		
-		//var_dump($email); exit;
-		include_once("hktdcAdmin/classes/class.upload.php");
-		//var_dump($store); exit;
-		$p_image=image_upload($_FILES['inputInvoice'],$randomNumber."main_img".time());
-        
-        //var_dump($p_image); exit;
-
-		$g_image="";
-		for($i=1;$i<=12;$i++){
-			$u_image=image_upload($_FILES['productimg'.$i],$product."g_img".$i);
-			//var_dump($_FILES['productimg'.$i]);
-			if($u_image!=""){
-				$g_image.=",".$u_image;
-			}
-		}
-		$g_image=ltrim($g_image,",");
-		
-		//var_dump($_FILES['invoiceimg']); exit;
-		//var_dump($p_image); exit;
-		//
+	if($giveName!="" && $email !=""){
+	
 		$msg=""; $error="";        
-            $query = "INSERT INTO `".TB_pre."shop_win` (`full_name`,`dob`,`country`,mobile,`email`,`emirate`,`invoice_img`,`is_arabic`) VALUES('$fullName','$dob','$nationality','$mobile','$email','$emirate','$p_image', '$arabic')";
+            $query = "INSERT INTO `".TB_pre."shop_win` (`salute`,`first_name`,`surname`,`company`,`position`,`country`,`tel`,`mobile`,`fax`,`email`,`website`,`emirate`,`city`,`attend`,`confirmation`,`consent`) VALUES('$salutation','$giveName','$surname','$company','$position','$nationality','$telephone','$mobile','$fax','$email','$website','$state','$city','$attend','$confirmation','$consent')";
             
 		  $r = mysqli_query($url, $query) or die(mysqli_error($url));
 		  if($r){
@@ -73,9 +74,10 @@ Your entry has been submitted succesfully. <br><br>
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="assets/css/style.css">
+    <!-- <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script> -->
 </head>
 <body>
-
+<!-- <div class="cf-turnstile" data-sitekey="0x4AAAAAAAQ5gKdLtAFKwf7h" data-callback="javascriptCallback"></div> -->
     <div class="outer-wraper">
         <div class="popupOuter">
             <div class="popupWraper">
@@ -88,22 +90,7 @@ Your entry has been submitted succesfully. <br><br>
                 </div>
             </div>
         </div>
-        <!-- popup ends-->
-        <!-- <header class="header">
-            <div class="container">
-                <div class="logo d-flex align-items-center pt-5"><img src="assets/img/raising-canes-logo.png" alt="Raising Canes" class="img-fluid"></div>
-            <div class="hero">
-                <div class="conditions mt-5 text-white"><p class="text-center">Buy a meal at the <strong>JBR Dubai</strong> restaurant from <strong>Dec 29th to the January 5th 2024</strong></p></div>
-                <div class="win">
-                    <div class="win-img">
-                        <img src="assets/img/prize.webp" alt="Get a chance to win an E-Scooter or an iphone 15" class="hide-sm img-fluid">
-                        <img src="assets/img/prize-sm.webp" alt="Get a chance to win an E-Scooter or an iphone 15" class="sm-only img-fluid">
-                    </div>
-                  
-                </div>
-            </div>
-            </div>
-        </header> -->
+       
         <section class="campaign">
             <div class="participation <?php if(isset($active)) {  echo $active; } else { echo 'no-active';} ?>">
                 <div class="red-box">
@@ -124,14 +111,39 @@ Your entry has been submitted succesfully. <br><br>
             <div class="row">
           <div class="col">
           <div class="shop-form mt-5 pt-md-0 pt-5">
-                <h2 class="text-center">Fill The Details</h2>
+                <h2 class="text-center">RSVP For The Chinese New Year Dinner Reception</h2>
+                
 			  	<form role="form" method="post"  class="form-horizontal" action="index.php#submitForm" enctype="multipart/form-data" id="submitForm" >
                   <div class="box-body row">
                     <div class="col-md-12">
                         <h5 for="title">* Title</h5>
                         <div class="title_row form-check custom-control custom-radio radio-btn">
-				<span><input id="ucCoreInfo1_rblSalutation_0"  type="radio" name="ucCoreInfo1:rblSalutation" value="PROF"><label for="ucCoreInfo1_rblSalutation_0">Prof</label></span><span><input id="ucCoreInfo1_rblSalutation_1"  type="radio" name="ucCoreInfo1:rblSalutation" value="DR"><label for="ucCoreInfo1_rblSalutation_1">Dr</label></span><span><input id="ucCoreInfo1_rblSalutation_2"  type="radio" name="ucCoreInfo1:rblSalutation" value="MR"><label for="ucCoreInfo1_rblSalutation_2">Mr</label></span><span><input id="ucCoreInfo1_rblSalutation_3"  type="radio" name="ucCoreInfo1:rblSalutation" value="MRS"><label for="ucCoreInfo1_rblSalutation_3">Mrs</label></span><span><input id="ucCoreInfo1_rblSalutation_4"  type="radio" name="ucCoreInfo1:rblSalutation" value="MS"><label for="ucCoreInfo1_rblSalutation_4">Ms</label></span><span><input id="ucCoreInfo1_rblSalutation_5"  type="radio" name="ucCoreInfo1:rblSalutation" value="MISS"><label for="ucCoreInfo1_rblSalutation_5">Miss</label></span>
-			</div>
+                            <span>
+                                <input id="salutation_0"  type="radio" name="salutation" value="PROF">
+                                <label for="salutation_0">Prof</label>
+                            </span>
+                            <span>
+                                <input id="salutation_1"  type="radio" name="salutation" value="DR">
+                                <label for="salutation_1">Dr</label>
+                            </span>
+                            <span>
+                                <input id="salutation_2"  type="radio" name="salutation" value="MR">
+                                <label for="salutation_2">Mr</label>
+                            </span>
+                            <span>
+                                <input id="salutation_3"  type="radio" name="salutation" value="MRS">
+                                <label for="salutation_3">Mrs</label>
+                            </span>
+                            <span>
+                                <input id="salutation_4"  type="radio" name="salutation" value="MS">
+                                <label for="salutation_4">Ms</label>
+                            </span>
+                            <span>
+                                <input id="salutation_5"  type="radio" name="salutation" value="MISS">
+                                <label for="salutation_5">Miss</label>
+                            </span>
+                        </div>
+                        <div id="salutation-err"></div>
                    
                     </div>
                   <div class="col-md-6 col-sm-12 col-xs-12">
@@ -181,7 +193,7 @@ Your entry has been submitted succesfully. <br><br>
                     </div>
                     <div class="col-md-6 col-sm-12 col-xs-12"> 
                         <div class="number-wraper">
-                            <input type="tel" name="fax" class="form-control inputfax" id="inputFax" placeholder="Fax * 971 5X XXXX XXX" required>
+                            <input type="tel" name="fax" class="form-control inputfax" id="inputFax" placeholder="Fax  971 5X XXXX XXX" >
                             <div id="fax-err"></div>
                         </div>
                     </div>
@@ -190,18 +202,13 @@ Your entry has been submitted succesfully. <br><br>
             <div class="col-md-6 col-sm-12 col-xs-12"> 
             <input type="email" class="form-control" placeholder="Email*" name="email" id="inputEmail4" required/>
 					  <div id="email-err"></div>
-					  <div id="email-exists"></div>
 
             </div>
             <div class="col-md-6 col-sm-12 col-xs-12"> 
-            <input type="text" class="form-control" placeholder="Website" name="website" id="inputWebsite" required/>
+            <input type="text" class="form-control" placeholder="Website" name="website" id="inputWebsite"/>
 					  <div id="website-err"></div>
 
             </div>
-            <hr>
-
-
-                    
 
             <div class="col-md-12"> 
            
@@ -210,24 +217,35 @@ Your entry has been submitted succesfully. <br><br>
                <div class="confirmation">
                 <div class="salutation"><p><strong>* I / WE</strong></p></div>
                 <div class="row attending">
-						<div class="col"><input id="shallAttend" type="radio" name="attend" value="101"><label for="shallAttend">shall attend</label></div><div class="col"><input id="shallNotAttend" type="radio" name="attend" value="102"><label for="shallNotAttend">shall not attend</label></div>
+						<div class="col">
+                            <input id="shallAttend" type="radio" name="attend" value="101">
+                            <label for="shallAttend">shall attend</label></div>
+                        <div class="col">
+                            <input id="shallNotAttend" type="radio" name="attend" value="102">
+                            <label for="shallNotAttend">shall not attend</label>
+                        </div>
 					</div>
+                    <div id="attend-err"></div>
                     <div class="row tickboxes mb-3">
                         <input type="checkbox" name="confirmation" id="confirmation">
                         <label for="confirmation" id="confirmationLabel">I confirm that I have read and agree with the Hong Kong Trade Development Council's (“HKTDC”) <a href="http://www.hktdc.com/mis/tu/en/" target="_blank">Terms of Use</a>. I acknowledge that the above information may be used by the HKTDC and Hong Kong Economic and Trade Office  (“HKETO”) in Dubai (the "Organisers") for incorporation in all or any of their databases for direct marketing or business matching purposes, and for any other purposes as stated in HKTDC's Privacy Policy Statement (<a href="http://www.hktdc.com/mis/pps/en" target="_blank">http://www.hktdc.com/mis/pps/en</a>) and HKETO Dubai’s Privacy Policy (<a href="https://www.hketodubai.gov.hk/en/privacy.html" target="_blank">https://www.hketodubai.gov.hk/en/privacy.html</a>).   I am admitted to the Fair on condition that I abide by the <a href="http://www.hktdc.com/mis/vrr/en/" target="_blank">Visitors’ Rules and Regulations</a> set by the HKTDC.</label>
                     </div>
-                    <div class="row tickboxes mb-3">
+                    <div id="confirmation-err"></div>
+                    <!-- <div class="row tickboxes mb-3">
                         <input type="checkbox" name="iagree" id="iagree">
                         <label for="iagree" id="iagreeLabel">I agree that the above information will be collected by Hong Kong Tourism Board and Cathay Pacific for business liaison, post-event communication and future marketing purposes.</label>
-                    </div>
+                    </div> -->
+                    <!-- <div id="iagree-err"></div> -->
                     <div class="row tickboxes mb-3">
                         <input type="checkbox" name="consent" id="consent">
                         <label for="consent" id="consentLabel">I would like to continue to be part of the HKTDC’s contact list and be informed of the latest market intelligence and business opportunities.
 [This box is solely for European Union (“EU”) / European Economic Area (“EEA”) customers as required by the relevant data protection law in the EU.]</label>
                     </div>
+                    <div id="consent-err"></div>
                </div>
                 <div id="accept-err"></div>
             </div>
+            <div class="cf-turnstile" data-sitekey="0x4AAAAAAAQ5gKdLtAFKwf7h"></div>
             <div class="form-buttons mb-5"><button type="submit" class="btn btn-primary submitnreset" name="btnadd" id="submit-button">Submit</button>
                 <button type="reset" class="btn btn-primary submitnreset" name="btnareset">Reset</button>
             </div>
@@ -239,6 +257,9 @@ Your entry has been submitted succesfully. <br><br>
                    
                   </div>
                 </form>
+           
+     
+
 			  </div>
         
               

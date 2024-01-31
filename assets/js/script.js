@@ -3,11 +3,29 @@
 //  Doc ready starts
 $(document).ready(function(){
 
-    const dob = document.getElementById('inputDob')
-    dob.addEventListener('focus', ()=>{
-        dob.type = "date"
-   //   $(dob).datepicker({ dateFormat: 'dd-mm-yy' }).val();
-    })
+    function validateSalutation() {
+        const salutationRadios = document.getElementsByName('salutation');
+        let isValid = false;
+    
+        // Check if at least one radio button is checked
+        for (let i = 0; i < salutationRadios.length; i++) {
+          if (salutationRadios[i].checked) {
+            isValid = true;
+            break;
+          }
+        }
+    
+        if (!isValid) {
+            $('#salutation-err').html('<p class="errormsg">Please select a salutation</p>');
+            document.getElementById('salutation_0').focus();
+            return false;
+        }
+    
+        return isValid;
+      }
+    
+
+          
     const radio = $('.radio-btn')
     $(radio).click(function(){
         $('.form-check-input').addClass('checked')
@@ -68,13 +86,40 @@ if (msgclose) {
             // Submit
             
 $('#submit-button').on('click', function(){
-    const fName = $('#full-name').val();
+
+    validateSalutation()
+
+    const fName = $('#given-name').val();
     if(fName.length < 3) {
-        $('#name-err').html('<p class="errormsg">Please enter a valid name</p>');
-        document.getElementById('full-name').focus();
+        $('#gname-err').html('<p class="errormsg">Please enter a valid name</p>');
+        document.getElementById('given-name').focus();
         return false;
     } else {
-        $('#name-err .errormsg').remove();
+        $('#gname-err .errormsg').remove();
+    }
+    const lName = $('#surname').val();
+    if(lName.length < 3) {
+        $('#sname-err').html('<p class="errormsg">Please enter a valid name</p>');
+        document.getElementById('surname').focus();
+        return false;
+    } else {
+        $('#sname-err .errormsg').remove();
+    }
+    const company = $('#company').val();
+    if(company.length < 3) {
+        $('#company-err').html('<p class="errormsg">Please enter a valid name</p>');
+        document.getElementById('company').focus();
+        return false;
+    } else {
+        $('#company-err .errormsg').remove();
+    }
+    const position = $('#position').val();
+    if(position.length < 3) {
+        $('#position-err').html('<p class="errormsg">Please enter a valid name</p>');
+        document.getElementById('position').focus();
+        return false;
+    } else {
+        $('#position-err .errormsg').remove();
     }
 
     const nationality = $('#nationality').val();
@@ -86,35 +131,56 @@ $('#submit-button').on('click', function(){
        $('#country-err .errormsg').remove();
    }
 
-   const dob = $('#inputDob').val();
-   if(dob.length < 4 ) {
-       $('#dob-err').html('<p class="errormsg">Please enter a valid date</p>');
+
+   const state = $('#state').val();
+   if(state.length < 1 ) {
+       $('#state-err').html('<p class="errormsg">Please enter state</p>');
+       document.getElementById('state').focus();
        return false;
    } else {
-       $('#dob-err .errormsg').remove();
+       $('#state-err .errormsg').remove();
    }
-
    const city = $('#city').val();
    if(city.length < 1 ) {
-       $('#city-err').html('<p class="errormsg">Please select Emirate</p>');
+       $('#city-err').html('<p class="errormsg">Please enter city</p>');
        document.getElementById('city').focus();
        return false;
    } else {
        $('#city-err .errormsg').remove();
    }
    
- 
+   const telephone = $('#telephone').val();
+    if(!(telephone.length >= 6 &&  telephone.length <= 13)) {
+ //  if(!(telephone.length ===9)) { //|| !$.isNumeric(telephone)
+      $('#tel-err').html('<p class="errormsg">Please enter a valid phone number. </p>');
+      document.getElementById('telephone').focus();
+    //   $('.number-wraper').addClass('active')
+      return false;
+  } else {
+      $('#tel-err .errormsg').remove();
+  }
 
    const mobile = $('#inputNumber').val();
-    if(!(mobile.length ===9  || mobile.length ===10)) {
+    if(!(mobile.length  >= 6 &&  mobile.length <= 13)) {
  //  if(!(mobile.length ===9)) { //|| !$.isNumeric(mobile)
-      $('#mobile-err').html('<p class="errormsg">Please enter a valid phone number.<br>Number format : 5xxxxxxxx / 05xxxxxxxx </p>');
+      $('#mobile-err').html('<p class="errormsg">Please enter a valid mobile number.');
       document.getElementById('inputNumber').focus();
-      $('.number-wraper').addClass('active')
+     // $('.number-wraper').addClass('active')
       return false;
   } else {
       $('#mobile-err .errormsg').remove();
   }
+
+//   const fax = $('#inputFax').val();
+//   if (!(fax.length >= 6 && fax.length <= 13)) {
+//  //  if(!(fax.length ===9)) { //|| !$.isNumeric(fax)
+//       $('#fax-err').html('<p class="errormsg">Please enter a valid fax number.');
+//       document.getElementById('inputFax').focus();
+//       $('.number-wraper').addClass('active')
+//       return false;
+//   } else {
+//       $('#fax-err .errormsg').remove();
+//   }
        
     const email = $('#inputEmail4').val();
    const regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;    
@@ -128,32 +194,64 @@ $('#submit-button').on('click', function(){
        $('#email-err .errormsg').remove();
    }
 
+//    const website = $('#inputWebsite').val();
+//    if(website.length < 1 ) {
+//        $('#website-err').html('<p class="errormsg">Please select Emirate</p>');
+//        document.getElementById('inputWebsite').focus();
+//        return false;
+//    } else {
+//        $('#website-err .errormsg').remove();
+//    }
    
-   
+// validateAttendance
+// Validate 'attend' radio buttons
+const attendRadios = document.getElementsByName('attend');
+let isAttendValid = false;
 
-    
-    const invoice = $('#inputInvoice').val();
+for (let i = 0; i < attendRadios.length; i++) {
+  if (attendRadios[i].checked) {
+    isAttendValid = true;
+    break;
+  }
+}
 
-   
-    if(invoice.length < 1 ) {
-       //  console.log(invoice);
-        $('#invoice-err').html('<p class="errormsg">Please upload a picture in jpg/png/gif format </p>');
-        $('#inputInvoice').val("");
-        return false;
-    } else {
-     //   console.log(invoice.length);
-        $('#invoice-err .errormsg').remove();
-    }
+if (!isAttendValid) {
+  $('#attend-err').html('<p class="errormsg">Please select either "shall attend" or "shall not attend"</p>');
+  return false;
+}
 
+// Validate 'customRadio1'
+if (!$("#confirmation").prop("checked")) {
+  $('#confirmation-err').html('<p class="errormsg">Please tick the checkbox. </p>');
+  return false;
+} else {
+  $('#confirmation-err .errormsg').remove();
+}
+
+
+// if (!$("#iagree").prop("checked")) {
+//     $('#iagree-err').html('<p class="errormsg">Please tick the checkbox . </p>');
+//     return false;
+//   } else {
+//     $('#iagree-err .errormsg').remove();
+//   }
   
+  if (!$("#consent").prop("checked")) {
+    $('#consent-err').html('<p class="errormsg">Please tick the checkbox . </p>');
+    return false;
+  } else {
+    $('#consent-err .errormsg').remove();
+  }
+// Validate 'customRadio1'
+// if (!$("#customRadio1").prop("checked")) {
+//   $('#accept-err').html('<p class="errormsg">Please accept the Terms and Conditions</p>');
+//   return false;
+// } else {
+//   $('#accept-err .errormsg').remove();
+// }
 
+// Additional code or actions can be placed here if needed
 
-    if (!$("#customRadio1").prop("checked")) {
-        $('#accept-err').html('<p class="errormsg">Please accept the Terms and Conditions</p>');
-        return false;
-    } else {
-        $('#accept-err .errormsg').remove();
-    }
    
     
     const currentUrl = window.location.href
